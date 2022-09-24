@@ -1,3 +1,4 @@
+package manager;
 
 public class Account {
 	private String name = null;

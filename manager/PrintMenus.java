@@ -1,3 +1,4 @@
+package manager;
 
 public class PrintMenus {
 	
@@ -6,7 +7,7 @@ public class PrintMenus {
 		System.out.println("---- BANK CASHIER ----");
 		System.out.println("----- Main Menu ------");
 		System.out.println("[1] Bank Transaction");
-		System.out.println("[2] Account Management");
+		System.out.println("[2] manager.Account Management");
 		System.out.println("[3] Exit");
 		System.out.print("-> ");
 	}
@@ -23,10 +24,10 @@ public class PrintMenus {
 	}
 	
 	public static void showAccountMenu() {
-		System.out.println("----- Account Menu -----");
-		System.out.println("[1] Create Account");
-		System.out.println("[2] View Account Info");
-		System.out.println("[3] Terminate Account");
+		System.out.println("----- manager.Account Menu -----");
+		System.out.println("[1] Create manager.Account");
+		System.out.println("[2] View manager.Account Info");
+		System.out.println("[3] Terminate manager.Account");
 		System.out.println("[4] Go Back");
 		System.out.println("[5] Exit");
 		System.out.print("-> ");

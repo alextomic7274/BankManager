@@ -1,10 +1,13 @@
+package manager;
+
+import manager.Account;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Manager {
 	private ArrayList<Account> database = new ArrayList<>();
 	private Scanner s = new Scanner(System.in);
-	
 	// Transactions
 	
 	public Manager() {
@@ -55,7 +58,7 @@ public class Manager {
 	}
 	
 	
-	// Account Management
+	// manager.Account Management
 	
 	public void createAccount() {
 		System.out.println("NAME: ");

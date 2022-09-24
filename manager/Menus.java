@@ -1,3 +1,7 @@
+package manager;
+
+import manager.Manager;
+
 import java.util.Scanner;
 
 public class Menus {
