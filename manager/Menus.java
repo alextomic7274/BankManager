@@ -1,15 +1,13 @@
 package manager;
 
-import manager.Manager;
-
 import java.util.Scanner;
 
 public class Menus {
 	private static Scanner scanner = new Scanner(System.in);
-	private static Manager m;
+	private static BankTeller m;
 	
 	public Menus() {
-		m = new Manager();
+		m = new BankTeller();
 	}
 
 	public static void mainMenu() {

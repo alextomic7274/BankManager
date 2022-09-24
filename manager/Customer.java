@@ -1,11 +1,13 @@
 package manager;
 
-public class Account {
+public class Customer {
 	private String name = null;
+	private String address = null;
 	private float startingBalance = 0;
 
-	public Account(String name, float startingBalance) {
+	public Customer(String name, String address, float startingBalance) {
 		this.name = name;
+		this.address = address;
 		this.startingBalance = startingBalance;
 	}
 
