@@ -4,10 +4,10 @@ public class PrintMenus {
 	
 	public static void showMainMenu() {
 		System.out.println("----------------------");
-		System.out.println("---- BANK CASHIER ----");
+		System.out.println("---- BANK MANAGER ----");
 		System.out.println("----- Main Menu ------");
-		System.out.println("[1] Bank Transaction");
-		System.out.println("[2] Account Management");
+		System.out.println("[1] Teller Log In");
+		System.out.println("[2] Admin Log in");
 		System.out.println("[3] Exit");
 		System.out.print("-> ");
 	}
