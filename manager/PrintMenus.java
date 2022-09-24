@@ -7,7 +7,7 @@ public class PrintMenus {
 		System.out.println("---- BANK CASHIER ----");
 		System.out.println("----- Main Menu ------");
 		System.out.println("[1] Bank Transaction");
-		System.out.println("[2] manager.Account Management");
+		System.out.println("[2] Account Management");
 		System.out.println("[3] Exit");
 		System.out.print("-> ");
 	}
