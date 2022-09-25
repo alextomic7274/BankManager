@@ -1,8 +1,11 @@
 package database;
 
+import database.dynamicType.*;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 /**
@@ -25,8 +28,8 @@ public class Connector {
      * @return A List of Maps, where each map represents a row in the result set.
      * @param <T> The parameter value
      */
-    public <T> List<HashMap<String, Object>> executeSelect(LinkedHashMap<String, T> map, String query){
-        List<HashMap<String, Object>> result = new ArrayList<>();
+    public <T> List<HashMap<String, DynamicType>> executeSelect(LinkedHashMap<String, T> map, String query){
+        List<HashMap<String, DynamicType>> result = new ArrayList<>();
         try(CallableStatement cstmt = con.prepareCall(query)) {
             for (Map.Entry<String, T> entry : map.entrySet()) {
                 cstmt.setObject(entry.getKey(), entry.getValue());
@@ -36,9 +39,22 @@ public class Connector {
                 ResultSetMetaData rsmd = rs.getMetaData();
                 int columnsNumber = rsmd.getColumnCount();
                 while (rs.next()) {
-                    HashMap<String, Object> row = new HashMap<>();
+                    HashMap<String, DynamicType> row = new HashMap<>();
                     for (int i = 1; i <= columnsNumber; i++) {
-                        row.put(rsmd.getColumnName(i), rs.getObject(i));
+                        if(rs.getObject(i) instanceof String){
+                            row.put(rsmd.getColumnName(i), new StringType(rs.getString(i)));
+                        } else if(rs.getObject(i) instanceof Integer){
+                            row.put(rsmd.getColumnName(i), new IntegerType(rs.getInt(i)));
+                        } else if(rs.getObject(i) instanceof Double){
+                            row.put(rsmd.getColumnName(i), new DoubleType(rs.getDouble(i)));
+                        } else if(rs.getObject(i) instanceof Boolean){
+                            row.put(rsmd.getColumnName(i), new BooleanType(rs.getBoolean(i)));
+                        } else if(rs.getObject(i) instanceof Date) {
+                            row.put(rsmd.getColumnName(i), new DateType(rs.getDate(i)));
+                        }
+                        else {
+                            row.put(rsmd.getColumnName(i), new ObjectType(rs.getObject(i)));
+                        }
                     }
                     result.add(row);
                 }
