@@ -51,6 +51,26 @@ public class Connector {
     }
 
     /**
+     * This method can be used to execute INSERT, UPDATE, DELETE queries on the database.
+     * @param map A map of parameters to be used in the query. The parameters MUST be added in the order of appearance in the query.
+     * @param query The query to be executed.
+     * @return True if the query was executed successfully, false otherwise.
+     * @param <T> The parameter value
+     */
+    public <T> boolean executeNoResult(LinkedHashMap<String, T> map, String query){
+        try(CallableStatement cstmt = con.prepareCall(query)) {
+            for (Map.Entry<String, T> entry : map.entrySet()) {
+                cstmt.setObject(entry.getKey(), entry.getValue());
+            }
+            cstmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
      * Get the link to connect to an Azure SQL database out of a .properties file.
      * @return the connection link
      */
