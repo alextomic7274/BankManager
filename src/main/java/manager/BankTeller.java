@@ -101,6 +101,10 @@ public class BankTeller {
 	public boolean containsName(final String name){
 	    return database.stream().anyMatch(o -> name.equals(o.getName()));
 	}
+
+	public void findAccount(){
+		//TODO: implement
+	}
 	
 	
 	
