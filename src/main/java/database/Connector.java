@@ -6,28 +6,27 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Connector {
-
-    private String connLink;
     private Connection con;
 
     public Connector(){
         con = establishConnection();
     }
 
-    private void getConnLink(){
+    private String getConnLink(){
         try {
             Properties prop = new Properties();
             prop.load(new FileInputStream("src/main/resources/config.properties"));
-            connLink = prop.getProperty("connLink");
+            return prop.getProperty("connLink");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return "";
     }
 
     private Connection establishConnection(){
         try {
             getConnLink();
-            return DriverManager.getConnection(connLink);
+            return DriverManager.getConnection(getConnLink());
         } catch (SQLException e) {
             e.printStackTrace();
         }
