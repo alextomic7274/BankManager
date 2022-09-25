@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * This class is used to establish a connection to an Azure SQL database.
+ * It also provides methods to generify the execution of SQL queries.
+ */
 public class Connector {
     private Connection con;
 
@@ -13,6 +17,14 @@ public class Connector {
     }
 
     //in development
+
+    /**
+     * This method can be used to execute SELECT queries on the database.
+     * @param map A map of parameters to be used in the query. The parameters MUST be added in the order of appearance in the query.
+     * @param query The query to be executed.
+     * @return A List of Maps, where each map represents a row in the result set.
+     * @param <T> The parameter value
+     */
     public <T> List<HashMap<String, Object>> executeSelect(LinkedHashMap<String, T> map, String query){
         List<HashMap<String, Object>> result = new ArrayList<>();
         try(CallableStatement cstmt = con.prepareCall(query)) {
@@ -38,6 +50,10 @@ public class Connector {
         return null;
     }
 
+    /**
+     * Get the link to connect to an Azure SQL database out of a .properties file.
+     * @return the connection link
+     */
     private String getConnLink(){
         try {
             Properties prop = new Properties();
@@ -49,6 +65,10 @@ public class Connector {
         return "";
     }
 
+    /**
+     * Establish a connection to an Azure SQL database.
+     * @return the connection
+     */
     private Connection establishConnection(){
         try {
             getConnLink();
