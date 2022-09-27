@@ -37,8 +37,10 @@ public class Connector {
     public <T> List<HashMap<String, DynamicType>> executeSelect(LinkedHashMap<String, T> map, String query){
         List<HashMap<String, DynamicType>> result = new ArrayList<>();
         try(CallableStatement cstmt = con.prepareCall(query)) {
-            for (Map.Entry<String, T> entry : map.entrySet()) {
-                cstmt.setObject(entry.getKey(), entry.getValue());
+            if(map != null) {
+                for (Map.Entry<String, T> entry : map.entrySet()) {
+                    cstmt.setObject(entry.getKey(), entry.getValue());
+                }
             }
             try(ResultSet rs = cstmt.executeQuery()){
                 //Convert ResultSet to List
@@ -81,8 +83,10 @@ public class Connector {
      */
     public <T> boolean executeNoResult(LinkedHashMap<String, T> map, String query){
         try(CallableStatement cstmt = con.prepareCall(query)) {
-            for (Map.Entry<String, T> entry : map.entrySet()) {
-                cstmt.setObject(entry.getKey(), entry.getValue());
+            if(map != null) {
+                for (Map.Entry<String, T> entry : map.entrySet()) {
+                    cstmt.setObject(entry.getKey(), entry.getValue());
+                }
             }
             cstmt.execute();
             return true;
