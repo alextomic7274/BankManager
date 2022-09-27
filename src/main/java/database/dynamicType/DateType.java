@@ -12,4 +12,8 @@ public class DateType implements DynamicType {
     public Date getValue() {
         return value;
     }
+
+    public String toString(){
+        return value.toString();
+    }
 }

@@ -10,4 +10,8 @@ public class ObjectType implements DynamicType {
     public Object getValue() {
         return value;
     }
+
+    public String toString(){
+        return value.toString();
+    }
 }

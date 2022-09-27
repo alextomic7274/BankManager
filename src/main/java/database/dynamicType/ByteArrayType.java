@@ -10,4 +10,8 @@ public class ByteArrayType implements DynamicType {
     public byte[] getValue() {
         return value;
     }
+
+    public String toString(){
+        return value.toString();
+    }
 }

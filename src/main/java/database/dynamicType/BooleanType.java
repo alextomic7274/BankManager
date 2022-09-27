@@ -10,4 +10,8 @@ public class BooleanType implements DynamicType {
     public boolean getValue() {
         return value;
     }
+
+    public String toString(){
+        return Boolean.toString(value);
+    }
 }

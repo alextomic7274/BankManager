@@ -10,4 +10,8 @@ public class StringType implements DynamicType {
     public String getValue() {
         return value;
     }
+
+    public String toString(){
+        return value;
+    }
 }
