@@ -29,7 +29,7 @@ public class Connector {
 
     /**
      * This method can be used to execute SELECT queries on the database.
-     * @param map A map of parameters to be used in the query. The parameters MUST be added in the order of appearance in the query.
+     * @param map A map of parameters to be used in the query. The parameters MUST be added in the order of appearance in the query. Set to null if no parameters are used.
      * @param query The query to be executed.
      * @return A List of Maps, where each map represents a row in the result set.
      * @param <T> The parameter value
@@ -76,16 +76,29 @@ public class Connector {
 
     /**
      * This method can be used to execute INSERT, UPDATE, DELETE queries on the database.
-     * @param map A map of parameters to be used in the query. The parameters MUST be added in the order of appearance in the query.
+     * @param map A map of parameters to be used in the query. The parameters MUST be added in the order of appearance in the query. Set to null if no parameters are used.
      * @param query The query to be executed.
      * @return True if the query was executed successfully, false otherwise.
-     * @param <T> The parameter value
      */
-    public <T> boolean executeNoResult(LinkedHashMap<String, T> map, String query){
+    public boolean executeNoResult(LinkedHashMap<Integer, DynamicType> map, String query){
         try(CallableStatement cstmt = con.prepareCall(query)) {
             if(map != null) {
-                for (Map.Entry<String, T> entry : map.entrySet()) {
-                    cstmt.setObject(entry.getKey(), entry.getValue());
+                for (Map.Entry<Integer, DynamicType> entry : map.entrySet()) {
+                    if (entry.getValue() instanceof StringType) {
+                        cstmt.setString(entry.getKey(), ((StringType) entry.getValue()).getValue());
+                    } else if (entry.getValue() instanceof IntegerType) {
+                        cstmt.setInt(entry.getKey(), ((IntegerType) entry.getValue()).getValue());
+                    } else if (entry.getValue() instanceof DoubleType) {
+                        cstmt.setDouble(entry.getKey(), ((DoubleType) entry.getValue()).getValue());
+                    } else if (entry.getValue() instanceof BooleanType) {
+                        cstmt.setBoolean(entry.getKey(), ((BooleanType) entry.getValue()).getValue());
+                    } else if (entry.getValue() instanceof DateType) {
+                        cstmt.setDate(entry.getKey(), ((DateType) entry.getValue()).getValue());
+                    } else if (entry.getValue() instanceof ByteArrayType) {
+                        cstmt.setBytes(entry.getKey(), ((ByteArrayType) entry.getValue()).getValue());
+                    } else {
+                        cstmt.setObject(entry.getKey(), entry.getValue());
+                    }
                 }
             }
             cstmt.execute();
