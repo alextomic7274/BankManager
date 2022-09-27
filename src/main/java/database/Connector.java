@@ -17,6 +17,12 @@ public class Connector {
 
     public Connector(){
         con = establishConnection();
+        System.out.println("Connection established");
+        try {
+            System.out.println(con.getMetaData().getDatabaseProductName());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     //in development
