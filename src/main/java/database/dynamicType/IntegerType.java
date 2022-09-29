@@ -1,17 +1,8 @@
 package database.dynamicType;
 
-public class IntegerType implements DynamicType {
-    private final int value;
+public record IntegerType(int value) implements DynamicType {
 
-    public IntegerType(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public String toString(){
+    public String toString() {
         return Integer.toString(value);
     }
 }
