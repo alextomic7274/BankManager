@@ -187,7 +187,49 @@ public class QueryWrapper {
         return con.executeNoResult(map, "UPDATE accounts SET balance = ? WHERE id = ?");
     }
 
+    /**
+     * Delete a role
+     * @param id ID of the role to delete
+     * @return true if delete was successful, false otherwise
+     */
+    public boolean deleteRole(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        return con.executeNoResult(map, "DELETE FROM roles WHERE id = ?");
+    }
 
+    /**
+     * Delete a user
+     * @param id ID of the user to delete
+     * @return true if delete was successful, false otherwise
+     */
+    public boolean deleteUser(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        return con.executeNoResult(map, "DELETE FROM users WHERE id = ?");
+    }
+
+    /**
+     * Delete an account
+     * @param id ID of the account to delete
+     * @return true if delete was successful, false otherwise
+     */
+    public boolean deleteAccount(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        return con.executeNoResult(map, "DELETE FROM accounts WHERE id = ?");
+    }
+
+    /**
+     * Delete a transaction
+     * @param id ID of the transaction to delete
+     * @return true if delete was successful, false otherwise
+     */
+    public boolean deleteTransaction(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        return con.executeNoResult(map, "DELETE FROM transactions WHERE id = ?");
+    }
 
     /**
      * Converts the result from the connector method into a list of hashmaps that map column names to values (as String).
