@@ -1,17 +1,10 @@
 package database.dynamicType;
 
-public class ByteArrayType implements DynamicType {
-    private final byte[] value;
+import java.util.Arrays;
 
-    public ByteArrayType(byte[] value) {
-        this.value = value;
-    }
+public record ByteArrayType(byte[] value) implements DynamicType {
 
-    public byte[] getValue() {
-        return value;
-    }
-
-    public String toString(){
-        return value.toString();
+    public String toString() {
+        return Arrays.toString(value);
     }
 }

@@ -1,17 +1,8 @@
 package database.dynamicType;
 
-public class StringType implements DynamicType {
-    private final String value;
+public record StringType(String value) implements DynamicType {
 
-    public StringType(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public String toString(){
+    public String toString() {
         return value;
     }
 }

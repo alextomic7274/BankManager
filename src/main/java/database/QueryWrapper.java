@@ -2,6 +2,7 @@ package database;
 
 import database.dynamicType.*;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.Date;
 import java.util.*;
@@ -109,6 +110,128 @@ public class QueryWrapper {
     }
 
     /**
+     * Change the name of a role
+     * @param id ID of the role to change
+     * @param name The new name of the role
+     * @return true if the update was successful, false otherwise
+     */
+    public boolean changeRoleName(int id, String name){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new StringType(name));
+        map.put(2, new IntegerType(id));
+        return con.executeNoResult(map, "UPDATE roles SET name = ? WHERE id = ?");
+    }
+
+    /**
+     * Change the name of a user
+     * @param id ID of the user to change
+     * @param name The new name of the user
+     * @return true if the update was successful, false otherwise
+     */
+    public boolean changeUserName(int id, String name){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new StringType(name));
+        map.put(2, new IntegerType(id));
+        return con.executeNoResult(map, "UPDATE users SET name = ? WHERE id = ?");
+    }
+
+    /**
+     * Change the password of a user
+     * @param id ID of the user to change
+     * @param password The new password of the user
+     * @return true if the update was successful, false otherwise
+     */
+    public boolean changeUserPassword(int id, String password){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new StringType(hashPassword(password)));
+        map.put(2, new IntegerType(id));
+        return con.executeNoResult(map, "UPDATE users SET password_hash = ? WHERE id = ?");
+    }
+
+    /**
+     * Change the role of a user
+     * @param id ID of the user to change
+     * @param roleId ID of the new role of the user (needs to be looked up in the database)
+     * @return true if the update was successful, false otherwise
+     */
+    public boolean changeUserRoleId(int id, int roleId){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(roleId));
+        map.put(2, new IntegerType(id));
+        return con.executeNoResult(map, "UPDATE users SET role_id = ? WHERE id = ?");
+    }
+
+    /**
+     * Change the name of an account
+     * @param id ID of the account to change
+     * @param name The new name of the account
+     * @return true if the update was successful, false otherwise
+     */
+    public boolean changeAccountName(int id, String name){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new StringType(name));
+        map.put(2, new IntegerType(id));
+        return con.executeNoResult(map, "UPDATE accounts SET name = ? WHERE id = ?");
+    }
+
+    /**
+     * Change the balance of an account
+     * @param id ID of the account to change
+     * @param balance The new balance of the account
+     * @return true if the update was successful, false otherwise
+     */
+    public boolean changeAccountBalance(int id, Double balance){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new DoubleType(balance));
+        map.put(2, new IntegerType(id));
+        return con.executeNoResult(map, "UPDATE accounts SET balance = ? WHERE id = ?");
+    }
+
+    /**
+     * Delete a role
+     * @param id ID of the role to delete
+     * @return true if delete was successful, false otherwise
+     */
+    public boolean deleteRole(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        return con.executeNoResult(map, "DELETE FROM roles WHERE id = ?");
+    }
+
+    /**
+     * Delete a user
+     * @param id ID of the user to delete
+     * @return true if delete was successful, false otherwise
+     */
+    public boolean deleteUser(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        return con.executeNoResult(map, "DELETE FROM users WHERE id = ?");
+    }
+
+    /**
+     * Delete an account
+     * @param id ID of the account to delete
+     * @return true if delete was successful, false otherwise
+     */
+    public boolean deleteAccount(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        return con.executeNoResult(map, "DELETE FROM accounts WHERE id = ?");
+    }
+
+    /**
+     * Delete a transaction
+     * @param id ID of the transaction to delete
+     * @return true if delete was successful, false otherwise
+     */
+    public boolean deleteTransaction(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        return con.executeNoResult(map, "DELETE FROM transactions WHERE id = ?");
+    }
+
+    /**
      * Converts the result from the connector method into a list of hashmaps that map column names to values (as String).
      * @return The converted list.
      */
@@ -132,7 +255,7 @@ public class QueryWrapper {
     private String hashPassword(String password){
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes("UTF-8"));
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(hash);
         } catch (Exception e) {
             e.printStackTrace();

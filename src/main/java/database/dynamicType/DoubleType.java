@@ -1,17 +1,8 @@
 package database.dynamicType;
 
-public class DoubleType implements DynamicType {
-    private final double value;
+public record DoubleType(double value) implements DynamicType {
 
-    public DoubleType(double value) {
-        this.value = value;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public String toString(){
+    public String toString() {
         return Double.toString(value);
     }
 }

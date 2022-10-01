@@ -13,7 +13,7 @@ import java.util.*;
  * It also provides methods to generify the execution of SQL queries.
  */
 public class Connector {
-    private Connection con;
+    private final Connection con;
 
     public Connector(){
         con = establishConnection();
@@ -85,17 +85,17 @@ public class Connector {
             if(map != null) {
                 for (Map.Entry<Integer, DynamicType> entry : map.entrySet()) {
                     if (entry.getValue() instanceof StringType) {
-                        cstmt.setString(entry.getKey(), ((StringType) entry.getValue()).getValue());
+                        cstmt.setString(entry.getKey(), ((StringType) entry.getValue()).value());
                     } else if (entry.getValue() instanceof IntegerType) {
-                        cstmt.setInt(entry.getKey(), ((IntegerType) entry.getValue()).getValue());
+                        cstmt.setInt(entry.getKey(), ((IntegerType) entry.getValue()).value());
                     } else if (entry.getValue() instanceof DoubleType) {
-                        cstmt.setDouble(entry.getKey(), ((DoubleType) entry.getValue()).getValue());
+                        cstmt.setDouble(entry.getKey(), ((DoubleType) entry.getValue()).value());
                     } else if (entry.getValue() instanceof BooleanType) {
-                        cstmt.setBoolean(entry.getKey(), ((BooleanType) entry.getValue()).getValue());
+                        cstmt.setBoolean(entry.getKey(), ((BooleanType) entry.getValue()).value());
                     } else if (entry.getValue() instanceof DateType) {
-                        cstmt.setDate(entry.getKey(), ((DateType) entry.getValue()).getValue());
+                        cstmt.setDate(entry.getKey(), ((DateType) entry.getValue()).value());
                     } else if (entry.getValue() instanceof ByteArrayType) {
-                        cstmt.setBytes(entry.getKey(), ((ByteArrayType) entry.getValue()).getValue());
+                        cstmt.setBytes(entry.getKey(), ((ByteArrayType) entry.getValue()).value());
                     } else {
                         cstmt.setObject(entry.getKey(), entry.getValue());
                     }
