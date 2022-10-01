@@ -4,6 +4,7 @@ public class DatabaseTestRunner {
 
     public static void main(String[] args) {
         QueryWrapper qw = new QueryWrapper();
-        //you can do stuff here as well
+        // Add 1 admin
+        qw.insertUser("Alex", "javacoding", 2);
     }
 }

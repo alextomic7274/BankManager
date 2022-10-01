@@ -2,7 +2,7 @@ package manager;
 
 public class PrintMenus {
 	
-	public static void showMainMenu() {
+	public void showMainMenu() {
 		System.out.println("----------------------");
 		System.out.println("---- BANK MANAGER ----");
 		System.out.println("----- Main Menu ------");
@@ -12,7 +12,7 @@ public class PrintMenus {
 		System.out.print("-> ");
 	}
 	
-	public static void showTransactionMenu() {
+	public void showTransactionMenu() {
 		System.out.println("----- Transaction -----");
 		System.out.println("[1] Withdraw");
 		System.out.println("[2] Lodge");
@@ -23,7 +23,7 @@ public class PrintMenus {
 		System.out.print("-> ");
 	}
 	
-	public static void showAccountMenu() {
+	public void showAccountMenu() {
 		System.out.println("----- manager.Account Menu -----");
 		System.out.println("[1] Create manager.Account");
 		System.out.println("[2] View manager.Account Info");
