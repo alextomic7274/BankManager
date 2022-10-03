@@ -1,51 +1,45 @@
 package manager;
 
+import database.QueryWrapper;
+
 import java.util.Scanner;
 
 public class Menus {
-	private static Scanner scanner = new Scanner(System.in);
-	private static BankTeller m;
-	
+	private static final Scanner scanner = new Scanner(System.in);
+	private static Teller m;
+	private static PrintMenus pm;
+
 	public Menus() {
-		m = new BankTeller();
+		m = new Teller();
+		pm = new PrintMenus();
 	}
 
 	public static void mainMenu() {
-		PrintMenus.showMainMenu();
-		int userChoice = Integer.parseInt(scanner.next()); 
+		pm.showMainMenu();
+		int userChoice = Integer.parseInt(scanner.next());
 		switch (userChoice) {
-			case 1 -> transactionMenu();
-			case 2 -> accountMenu();
+			case 1 -> ;// TODO: Add teller log in/password prompts, print invalid if teller not found in DB
+			case 2 -> accountMenu(); // TODO: Add admin login/password prompt
 			case 3 -> System.exit(0);
+			case 4 -> testDB();
 		}
 		scanner.close();
 	}
 	
 	public static void transactionMenu() {
-		PrintMenus.showTransactionMenu();
+		pm.showTransactionMenu();
 		int userChoice = Integer.parseInt(scanner.next()); 
 		switch (userChoice) {
-			case 1 -> m.withdraw();
-			case 2 -> accountMenu();
-			case 3 -> System.exit(0);
-			case 4 -> m.viewBalance();
-			case 5 -> mainMenu();
-			case 6 -> System.exit(0);
-
+			// TODO
 		}
 		scanner.close();
 	}
 	
 	public static void accountMenu() {
-		PrintMenus.showAccountMenu();
+		pm.showAccountMenu();
 		int userChoice = Integer.parseInt(scanner.next()); 
 		switch (userChoice) {
-			case 1 -> m.createAccount();
-			case 2 -> m.findAccount();
-			case 3 -> m.deleteAccount();
-			case 4 -> mainMenu();
-			case 5 -> System.exit(0);
+			// TODO
 		}
 		scanner.close();
 	}
-}
