@@ -1,4 +1,0 @@
-Users(id (PK), name, password_hash, role_id (FK))
-Roles(id (PK), name)
-Accounts(id (PK), name, balance, creation_date, owner_id (FK))
-Transactions(id (PK), transaction_date, amount, from (FK), to (FK))
