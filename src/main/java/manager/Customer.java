@@ -1,13 +1,13 @@
 package manager;
 
-import database.QueryWrapper;
-
 public class Customer {
 	private String name = null;
+	private String address = null;
 	private float startingBalance = 0;
 
-	public Customer(String name, float startingBalance) {
+	public Customer(String name, String address, float startingBalance) {
 		this.name = name;
+		this.address = address;
 		this.startingBalance = startingBalance;
 	}
 
@@ -38,8 +38,6 @@ public class Customer {
 		// TODO Auto-generated method stub
 		return name;
 	}
-
-
 	
 	
 	
