@@ -32,13 +32,12 @@ public class Connector {
      * @param map A map of parameters to be used in the query. The parameters MUST be added in the order of appearance in the query. Set to null if no parameters are used.
      * @param query The query to be executed.
      * @return A List of Maps, where each map represents a row in the result set.
-     * @param <T> The parameter value
      */
-    public <T> List<HashMap<String, DynamicType>> executeSelect(LinkedHashMap<String, T> map, String query){
+    public List<HashMap<String, DynamicType>> executeSelect(LinkedHashMap<Integer, DynamicType> map, String query){
         List<HashMap<String, DynamicType>> result = new ArrayList<>();
         try(CallableStatement cstmt = con.prepareCall(query)) {
             if(map != null) {
-                for (Map.Entry<String, T> entry : map.entrySet()) {
+                for (Map.Entry<Integer, DynamicType> entry : map.entrySet()) {
                     cstmt.setObject(entry.getKey(), entry.getValue());
                 }
             }

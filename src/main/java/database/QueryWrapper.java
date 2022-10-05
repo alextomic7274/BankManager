@@ -25,6 +25,18 @@ public class QueryWrapper {
         List<HashMap<String, DynamicType>> dbResult = con.executeSelect(null, "SELECT * FROM accounts");
         return getHashMapResult(dbResult);
     }
+
+    /**
+     * Get an account from the database by its id.
+     * @param id The id of the account.
+     * @return A list of size 1 or 0 (if no account with the given id exists).
+     */
+    public List<HashMap<String, String>> getAccountById(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM accounts WHERE id = ?");
+        return getHashMapResult(dbResult);
+    }
     /**
      * Get all roles from the database.
      * @return A list of Hashmaps (one hashmaps represents one line of the result table).
@@ -33,12 +45,37 @@ public class QueryWrapper {
         List<HashMap<String, DynamicType>> dbResult = con.executeSelect(null, "SELECT * FROM roles");
         return getHashMapResult(dbResult);
     }
+
+    /**
+     * Get a role from the database by its id.
+     * @param id The id of the role.
+     * @return A list of size 1 or 0 (if no role with the given id exists).
+     */
+    public List<HashMap<String, String>> getRoleById(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM roles WHERE id = ?");
+        return getHashMapResult(dbResult);
+    }
+
     /**
      * Get all users from the database.
      * @return A list of Hashmaps (one hashmaps represents one line of the result table).
      */
     public List<HashMap<String, String>> getAllUsers(){
         List<HashMap<String, DynamicType>> dbResult = con.executeSelect(null, "SELECT * FROM users");
+        return getHashMapResult(dbResult);
+    }
+
+    /**
+     * Get a user from the database by its id.
+     * @param id The id of the user.
+     * @return A list of size 1 or 0 (if no user with the given id exists).
+     */
+    public List<HashMap<String, String>> getUserById(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM users WHERE id = ?");
         return getHashMapResult(dbResult);
     }
 
@@ -50,9 +87,21 @@ public class QueryWrapper {
         List<HashMap<String, DynamicType>> dbResult = con.executeSelect(null, "SELECT * FROM transactions");
         return getHashMapResult(dbResult);
     }
-/**
+
+    /**
+     * Get a transaction from the database by its id.
+     * @param id The id of the transaction.
+     * @return A list of size 1 or 0 (if no transaction with the given id exists).
+     */
+    public List<HashMap<String, String>> getTransactionById(int id){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new IntegerType(id));
+        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM transactions WHERE id = ?");
+        return getHashMapResult(dbResult);
+    }
+    /**
      * Insert a role into the database
- *     @param name The name of the role
+     * @param name The name of the role
      * @return true if the insert was successful, false otherwise
      */
     public boolean insertRole(String name){
