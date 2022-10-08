@@ -80,6 +80,18 @@ public class QueryWrapper {
     }
 
     /**
+     * Get a user from the database by its username.
+     * @param name The username of the user.
+     * @return A list of size 1 or 0 (if no user with the given username exists).
+     */
+    public List<HashMap<String, String>> getUserByName(String name){
+        LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        map.put(1, new StringType(name));
+        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM users WHERE name = ?");
+        return getHashMapResult(dbResult);
+    }
+
+    /**
      * Get all transactions from the database.
      * @return A list of Hashmaps (one hashmaps represents one line of the result table).
      */
@@ -278,6 +290,22 @@ public class QueryWrapper {
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new IntegerType(id));
         return con.executeNoResult(map, "DELETE FROM transactions WHERE id = ?");
+    }
+
+    /**
+     * Check if the given login credentials are correct
+     * @param username Username of the user
+     * @param password Password of the user
+     * @return true if the credentials are correct, false otherwise
+     */
+    public boolean checkUserLogin(String username, String password){
+        List<HashMap<String, String>> result = getUserByName(username);
+        if(result.size() == 1){
+            String dbHash = result.get(0).get("password_hash");
+            String hash = hashPassword(password);
+            return dbHash.equals(hash);
+        }
+        return false;
     }
 
     /**
