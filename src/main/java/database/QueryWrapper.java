@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.Date;
 import java.util.*;
+import com.google.common.hash.Hashing;
 
 /**
  * This class wraps SQL queries into methods that can be called from outside.
@@ -329,7 +330,7 @@ public class QueryWrapper {
      * @param password The password to hash.
      * @return The encoded password.
      */
-    private String hashPassword(String password){
+    public String hashPassword(String password){
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -338,5 +339,13 @@ public class QueryWrapper {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String guavaHash(String password){
+        String sha256Hex =  Hashing.sha256()
+                .hashString(password, StandardCharsets.UTF_8)
+                .toString();
+        System.out.println(sha256Hex);
+        return Base64.getEncoder().encodeToString(sha256Hex.getBytes());
     }
 }
