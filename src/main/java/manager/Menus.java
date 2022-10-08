@@ -1,51 +1,55 @@
 package manager;
 
+import database.QueryWrapper;
+
 import java.util.Scanner;
 
 public class Menus {
 	private static Scanner scanner = new Scanner(System.in);
-	private static BankTeller m;
+	private static QueryWrapper qw;
 	
 	public Menus() {
-		m = new BankTeller();
+		qw = new QueryWrapper();
 	}
 
 	public static void mainMenu() {
-		PrintMenus.showMainMenu();
+		userInterface.showMainMenu();
 		int userChoice = Integer.parseInt(scanner.next()); 
 		switch (userChoice) {
-			case 1 -> transactionMenu();
-			case 2 -> accountMenu();
+			case 1 -> adminMenu();
+			case 2 -> tellerMenu();
 			case 3 -> System.exit(0);
 		}
 		scanner.close();
 	}
-	
-	public static void transactionMenu() {
-		PrintMenus.showTransactionMenu();
-		int userChoice = Integer.parseInt(scanner.next()); 
-		switch (userChoice) {
-			case 1 -> m.withdraw();
-			case 2 -> accountMenu();
-			case 3 -> System.exit(0);
-			case 4 -> m.viewBalance();
-			case 5 -> mainMenu();
-			case 6 -> System.exit(0);
 
+	public static void adminMenu() {
+		if (validateUser("Admin")){
+			// TODO
+			userInterface.showAdminMenu();
+		}	else{
+			System.out.println("Wrong Username or Password");
+			mainMenu();
 		}
-		scanner.close();
 	}
-	
-	public static void accountMenu() {
-		PrintMenus.showAccountMenu();
-		int userChoice = Integer.parseInt(scanner.next()); 
-		switch (userChoice) {
-			case 1 -> m.createAccount();
-			case 2 -> m.findAccount();
-			case 3 -> m.deleteAccount();
-			case 4 -> mainMenu();
-			case 5 -> System.exit(0);
+
+	public static void tellerMenu() {
+		if (validateUser("Teller")){
+			// TODO
+			userInterface.showTellerMenu();
+		}	else{
+			System.out.println("Wrong Username or Password");
+			mainMenu();
 		}
-		scanner.close();
+	}
+
+	public static boolean validateUser(String role) {
+		System.out.println(role+" Username: ");
+		String userName = scanner.nextLine();
+		System.out.println(role+" Password: ");
+		String passWord = scanner.nextLine();
+		if (qw.checkUserLogin(userName, passWord)){
+			return true;
+		}	else return false;
 	}
 }
