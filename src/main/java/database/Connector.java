@@ -38,7 +38,19 @@ public class Connector {
         try(CallableStatement cstmt = con.prepareCall(query)) {
             if(map != null) {
                 for (Map.Entry<Integer, DynamicType> entry : map.entrySet()) {
-                    cstmt.setObject(entry.getKey(), entry.getValue());
+                    if(entry.getValue() instanceof StringType){
+                        cstmt.setString(entry.getKey(), entry.getValue().toString());
+                    } else if(entry.getValue() instanceof IntegerType){
+                        cstmt.setInt(entry.getKey(), ((IntegerType) entry.getValue()).value());
+                    } else if(entry.getValue() instanceof DoubleType){
+                        cstmt.setDouble(entry.getKey(), ((DoubleType) entry.getValue()).value());
+                    } else if(entry.getValue() instanceof DateType){
+                        cstmt.setDate(entry.getKey(), ((DateType) entry.getValue()).value());
+                    } else if(entry.getValue() instanceof BooleanType){
+                        cstmt.setBoolean(entry.getKey(), ((BooleanType) entry.getValue()).value());
+                    } else {
+                        cstmt.setObject(entry.getKey(), ((ObjectType) entry.getValue()).value());
+                    }
                 }
             }
             try(ResultSet rs = cstmt.executeQuery()){
