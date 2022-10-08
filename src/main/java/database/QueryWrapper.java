@@ -345,7 +345,6 @@ public class QueryWrapper {
         String sha256Hex =  Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
-        System.out.println(sha256Hex);
         return Base64.getEncoder().encodeToString(sha256Hex.getBytes());
     }
 }
