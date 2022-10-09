@@ -16,12 +16,16 @@ public class Connector {
     private final Connection con;
 
     public Connector(){
-        con = establishConnection();
+        try {
+            con = establishConnection();
+        } catch(SQLException e) {
+            throw new RuntimeException("Failed to establish connection to database", e);
+        }
         System.out.println("Connection established");
         try {
             System.out.println(con.getMetaData().getDatabaseProductName());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to get database product name", e);
         }
     }
 
@@ -33,7 +37,7 @@ public class Connector {
      * @param query The query to be executed.
      * @return A List of Maps, where each map represents a row in the result set.
      */
-    public List<HashMap<String, DynamicType>> executeSelect(LinkedHashMap<Integer, DynamicType> map, String query){
+    public List<HashMap<String, DynamicType>> executeSelect(LinkedHashMap<Integer, DynamicType> map, String query) throws SQLException {
         List<HashMap<String, DynamicType>> result = new ArrayList<>();
         try(CallableStatement cstmt = con.prepareCall(query)) {
             if(map != null) {
@@ -80,9 +84,8 @@ public class Connector {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Something went wrong during select execution: " + e.getMessage(), e);
         }
-        return null;
     }
 
     /**
@@ -91,7 +94,7 @@ public class Connector {
      * @param query The query to be executed.
      * @return True if the query was executed successfully, false otherwise.
      */
-    public boolean executeNoResult(LinkedHashMap<Integer, DynamicType> map, String query){
+    public boolean executeNoResult(LinkedHashMap<Integer, DynamicType> map, String query) throws SQLException {
         try(CallableStatement cstmt = con.prepareCall(query)) {
             if(map != null) {
                 for (Map.Entry<Integer, DynamicType> entry : map.entrySet()) {
@@ -115,9 +118,8 @@ public class Connector {
             cstmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Something went wrong during no-result execution: " + e.getMessage(), e);
         }
-        return false;
     }
 
     /**
@@ -139,13 +141,12 @@ public class Connector {
      * Establish a connection to an Azure SQL database.
      * @return the connection
      */
-    private Connection establishConnection(){
+    private Connection establishConnection() throws SQLException {
         try {
             getConnLink();
             return DriverManager.getConnection(getConnLink());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Something went wrong during connection establishment: " + e.getMessage(), e);
         }
-        return null;
     }
 }
