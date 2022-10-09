@@ -5,6 +5,7 @@ import database.dynamicType.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.*;
 import com.google.common.hash.Hashing;
 
@@ -23,7 +24,12 @@ public class QueryWrapper {
      * @return A list of Hashmaps (one hashmaps represents one line of the result table).
      */
     public List<HashMap<String, String>> getAllAccounts(){
-        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(null, "SELECT * FROM accounts");
+        List <HashMap<String, DynamicType>> dbResult;
+        try {
+            dbResult = con.executeSelect(null, "SELECT * FROM accounts");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"getAllAccounts\"", e);
+        }
         return getHashMapResult(dbResult);
     }
 
@@ -34,8 +40,13 @@ public class QueryWrapper {
      */
     public List<HashMap<String, String>> getAccountById(int id){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        List<HashMap<String, DynamicType>> dbResult;
         map.put(1, new IntegerType(id));
-        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM accounts WHERE id = ?");
+        try {
+            dbResult = con.executeSelect(map, "SELECT * FROM accounts WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"getAccountById\"", e);
+        }
         return getHashMapResult(dbResult);
     }
     /**
@@ -43,7 +54,12 @@ public class QueryWrapper {
      * @return A list of Hashmaps (one hashmaps represents one line of the result table).
      */
     public List<HashMap<String, String>> getAllRoles(){
-        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(null, "SELECT * FROM roles");
+        List<HashMap<String, DynamicType>> dbResult;
+        try{
+            dbResult = con.executeSelect(null, "SELECT * FROM roles");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"getAllRoles\"", e);
+        }
         return getHashMapResult(dbResult);
     }
 
@@ -54,8 +70,13 @@ public class QueryWrapper {
      */
     public List<HashMap<String, String>> getRoleById(int id){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        List<HashMap<String, DynamicType>> dbResult;
         map.put(1, new IntegerType(id));
-        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM roles WHERE id = ?");
+        try {
+            dbResult = con.executeSelect(map, "SELECT * FROM roles WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"getRoleById\"", e);
+        }
         return getHashMapResult(dbResult);
     }
 
@@ -64,7 +85,12 @@ public class QueryWrapper {
      * @return A list of Hashmaps (one hashmaps represents one line of the result table).
      */
     public List<HashMap<String, String>> getAllUsers(){
-        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(null, "SELECT * FROM users");
+        List<HashMap<String, DynamicType>> dbResult;
+        try{
+            dbResult = con.executeSelect(null, "SELECT * FROM users");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"getAllUsers\"", e);
+        }
         return getHashMapResult(dbResult);
     }
 
@@ -75,8 +101,13 @@ public class QueryWrapper {
      */
     public List<HashMap<String, String>> getUserById(int id){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        List<HashMap<String, DynamicType>> dbResult;
         map.put(1, new IntegerType(id));
-        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM users WHERE id = ?");
+        try {
+            dbResult = con.executeSelect(map, "SELECT * FROM users WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"getUserById\"", e);
+        }
         return getHashMapResult(dbResult);
     }
 
@@ -87,8 +118,13 @@ public class QueryWrapper {
      */
     public List<HashMap<String, String>> getUserByName(String name){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        List<HashMap<String, DynamicType>> dbResult;
         map.put(1, new StringType(name));
-        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM users WHERE name = ?");
+        try {
+            dbResult = con.executeSelect(map, "SELECT * FROM users WHERE name = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"getUserByName\"", e);
+        }
         return getHashMapResult(dbResult);
     }
 
@@ -97,7 +133,12 @@ public class QueryWrapper {
      * @return A list of Hashmaps (one hashmaps represents one line of the result table).
      */
     public List<HashMap<String, String>> getAllTransactions(){
-        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(null, "SELECT * FROM transactions");
+        List<HashMap<String, DynamicType>> dbResult;
+        try{
+            dbResult = con.executeSelect(null, "SELECT * FROM transactions");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"getAllTransactions\"", e);
+        }
         return getHashMapResult(dbResult);
     }
 
@@ -108,8 +149,13 @@ public class QueryWrapper {
      */
     public List<HashMap<String, String>> getTransactionById(int id){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
+        List<HashMap<String, DynamicType>> dbResult;
         map.put(1, new IntegerType(id));
-        List<HashMap<String, DynamicType>> dbResult = con.executeSelect(map, "SELECT * FROM transactions WHERE id = ?");
+        try {
+            dbResult = con.executeSelect(map, "SELECT * FROM transactions WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"getTransactionById\"", e);
+        }
         return getHashMapResult(dbResult);
     }
     /**
@@ -120,7 +166,11 @@ public class QueryWrapper {
     public boolean insertRole(String name){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new StringType(name));
-        return con.executeNoResult(map, "INSERT INTO roles (name) VALUES (?)");
+        try {
+            return con.executeNoResult(map, "INSERT INTO roles (name) VALUES (?)");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"insertRole\"", e);
+        }
     }
 
     /**
@@ -135,7 +185,11 @@ public class QueryWrapper {
         map.put(1, new StringType(name));
         map.put(2, new StringType(hashPassword(password)));
         map.put(3, new IntegerType(roleId));
-        return con.executeNoResult(map, "INSERT INTO users (name, password_hash, role_id) VALUES (?, ?, ?)");
+        try {
+            return con.executeNoResult(map, "INSERT INTO users (name, password, role_id) VALUES (?, ?, ?)");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"insertUser\"", e);
+        }
     }
 
     /**
@@ -152,7 +206,11 @@ public class QueryWrapper {
         map.put(2, new DoubleType(balance));
         map.put(3, new DateType(creationDate));
         map.put(4, new IntegerType(ownerId));
-        return con.executeNoResult(map, "INSERT INTO accounts (name, user_id) VALUES (?, ?)");
+        try {
+            return con.executeNoResult(map, "INSERT INTO accounts (name, balance, creation_date, owner_id) VALUES (?, ?, ?, ?)");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"insertAccount\"", e);
+        }
     }
     /**
      * Insert a transaction into the database
@@ -168,7 +226,11 @@ public class QueryWrapper {
         map.put(2, new DoubleType(amount));
         map.put(3, new IntegerType(userFrom));
         map.put(4, new IntegerType(userTo));
-        return con.executeNoResult(map, "INSERT INTO transactions (account_id, user_id, amount, date) VALUES (?, ?, ?, ?)");
+        try {
+            return con.executeNoResult(map, "INSERT INTO transactions (transaction_date, amount, user_from, user_to) VALUES (?, ?, ?, ?)");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"insertTransaction\"", e);
+        }
     }
 
     /**
@@ -181,7 +243,11 @@ public class QueryWrapper {
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new StringType(name));
         map.put(2, new IntegerType(id));
-        return con.executeNoResult(map, "UPDATE roles SET name = ? WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "UPDATE roles SET name = ? WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"changeRoleName\"", e);
+        }
     }
 
     /**
@@ -194,7 +260,11 @@ public class QueryWrapper {
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new StringType(name));
         map.put(2, new IntegerType(id));
-        return con.executeNoResult(map, "UPDATE users SET name = ? WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "UPDATE users SET name = ? WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"changeUserName\"", e);
+        }
     }
 
     /**
@@ -207,7 +277,11 @@ public class QueryWrapper {
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new StringType(hashPassword(password)));
         map.put(2, new IntegerType(id));
-        return con.executeNoResult(map, "UPDATE users SET password_hash = ? WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "UPDATE users SET password = ? WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"changeUserPassword\"", e);
+        }
     }
 
     /**
@@ -220,7 +294,11 @@ public class QueryWrapper {
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new IntegerType(roleId));
         map.put(2, new IntegerType(id));
-        return con.executeNoResult(map, "UPDATE users SET role_id = ? WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "UPDATE users SET role_id = ? WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"changeUserRoleId\"", e);
+        }
     }
 
     /**
@@ -233,7 +311,11 @@ public class QueryWrapper {
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new StringType(name));
         map.put(2, new IntegerType(id));
-        return con.executeNoResult(map, "UPDATE accounts SET name = ? WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "UPDATE accounts SET name = ? WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"changeAccountName\"", e);
+        }
     }
 
     /**
@@ -246,7 +328,11 @@ public class QueryWrapper {
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new DoubleType(balance));
         map.put(2, new IntegerType(id));
-        return con.executeNoResult(map, "UPDATE accounts SET balance = ? WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "UPDATE accounts SET balance = ? WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"changeAccountBalance\"", e);
+        }
     }
 
     /**
@@ -257,7 +343,11 @@ public class QueryWrapper {
     public boolean deleteRole(int id){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new IntegerType(id));
-        return con.executeNoResult(map, "DELETE FROM roles WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "DELETE FROM roles WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"deleteRole\"", e);
+        }
     }
 
     /**
@@ -268,7 +358,11 @@ public class QueryWrapper {
     public boolean deleteUser(int id){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new IntegerType(id));
-        return con.executeNoResult(map, "DELETE FROM users WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "DELETE FROM users WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"deleteUser\"", e);
+        }
     }
 
     /**
@@ -279,7 +373,11 @@ public class QueryWrapper {
     public boolean deleteAccount(int id){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new IntegerType(id));
-        return con.executeNoResult(map, "DELETE FROM accounts WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "DELETE FROM accounts WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"deleteAccount\"", e);
+        }
     }
 
     /**
@@ -290,7 +388,11 @@ public class QueryWrapper {
     public boolean deleteTransaction(int id){
         LinkedHashMap<Integer, DynamicType> map = new LinkedHashMap<>();
         map.put(1, new IntegerType(id));
-        return con.executeNoResult(map, "DELETE FROM transactions WHERE id = ?");
+        try {
+            return con.executeNoResult(map, "DELETE FROM transactions WHERE id = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute query \"deleteTransaction\"", e);
+        }
     }
 
     /**
