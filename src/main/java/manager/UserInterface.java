@@ -1,6 +1,6 @@
 package manager;
 
-public class userInterface {
+public class UserInterface {
 	
 	public static void showMainMenu() {
 		System.out.println("----------------------");
