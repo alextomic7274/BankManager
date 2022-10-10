@@ -186,7 +186,7 @@ public class QueryWrapper {
         map.put(2, new StringType(hashPassword(password)));
         map.put(3, new IntegerType(roleId));
         try {
-            return con.executeNoResult(map, "INSERT INTO users (name, password, role_id) VALUES (?, ?, ?)");
+            return con.executeNoResult(map, "INSERT INTO users (name, password_hash, role_id) VALUES (?, ?, ?)");
         } catch (SQLException e) {
             throw new RuntimeException("Failed to execute query \"insertUser\"", e);
         }
