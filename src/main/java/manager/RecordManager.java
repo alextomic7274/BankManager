@@ -45,16 +45,12 @@ public class RecordManager {
 
     /**
      * This is an example on how to use the QueryWrapper class.
-     * @param username The username which id is to be retrieved.
-     * @return The id of the user with the given username.
      */
-    private int getUserIdExample(String username) {
-        List<HashMap<String, String>> users = qw.getUserByName(username);
-        if(users.size() == 0) {
-            return -1;
-        } else {
-            String userId = users.get(0).get("id");
-            return Integer.parseInt(userId);
+    private void QueryWrapperExample() {
+        List<HashMap<String, String>> users = qw.getAllUsers();
+        for (HashMap<String, String> user : users) {
+            System.out.println("Current user id: " + user.get("id"));
+            System.out.println("Current user name: " + user.get("name"));
         }
     }
 
