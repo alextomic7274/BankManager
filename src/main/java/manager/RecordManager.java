@@ -2,6 +2,8 @@ package manager;
 
 import database.QueryWrapper;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -39,6 +41,21 @@ public class RecordManager {
         String[] array;
         array = user.split("=");
         return Character.getNumericValue(array[5].charAt(0));
+    }
+
+    /**
+     * This is an example on how to use the QueryWrapper class.
+     * @param username The username which id is to be retrieved.
+     * @return The id of the user with the given username.
+     */
+    private int getUserIdExample(String username) {
+        List<HashMap<String, String>> users = qw.getUserByName(username);
+        if(users.size() == 0) {
+            return -1;
+        } else {
+            String userId = users.get(0).get("id");
+            return Integer.parseInt(userId);
+        }
     }
 
     public void changeTellerPassword() {
